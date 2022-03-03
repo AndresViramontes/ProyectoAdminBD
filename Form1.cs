@@ -14,15 +14,17 @@ namespace Proyecto_Adimn_BD
     public partial class Form1 : Form
     {
         int idAux;
+        int idRow;
         SqlConnection conexion;
         public Form1()
         {
-            //conexion = new SqlConnection("server=DESKTOP-N3D010C\\SQLEXPRESS;" +
-              //  "database=Sistema_Musica; integrated security = true");
+            conexion = new SqlConnection("server=ANDREW-PC\\SQLEXPRESS;" +
+             "database=Sistema_Musica; integrated security = true");
             conexion.Open();
             InitializeComponent();
             muestraDatos("Genero", dataGridView2);
             muestraDatos("Disquera", dataGridView3);
+            muestraDatos("Miembro", dataGridView1);
             button2.Enabled = false;
             button3.Enabled = false;
             button4.Enabled = false;
@@ -33,14 +35,25 @@ namespace Proyecto_Adimn_BD
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            string nombre = textBox1.Text;
-            string email = textBox2.Text;
-            string fechaN = dateTimePicker1.Text;
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            string nombre = textBox1.Text;
+            string email = textBox2.Text;
+            string fechaN = dateTimePicker1.Value.ToString("yyyy/MM/dd");
+            DateTime thisDay = DateTime.Today;
+            string fechaAc = thisDay.ToString("yyyy/MM/dd");
+            string cadena = "INSERT INTO Miembro(NombreMiembro,Email,FechaNacimiento,MiembroDesde)" +
+               "VALUES ('" + nombre + "','" + email + "','" + fechaN + "','" + fechaAc +"')";
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            textBox1.Text = "";
+            textBox2.Text = "";
+            dateTimePicker1.Text = "";
+            muestraDatos("Miembro", dataGridView1);
         }
 
         private void label7_Click(object sender, EventArgs e)
@@ -132,7 +145,7 @@ namespace Proyecto_Adimn_BD
             string fechaFun = dateTimePicker2.Value.ToString("yyyy/MM/dd");
             //MessageBox.Show(fechaFun);
             string cadena = "UPDATE Disquera SET NombreDisquera=" + "'" + nombreDisc + "'" + "," + "PaginaWeb=" + "'" + paginaWeb + "'"
-                + "," + "FechaFundacion=" + "'" + fechaFun + "'"+ " WHERE idDisquera=" + idAux.ToString(); ;
+                + "," + "FechaFundacion=" + "'" + fechaFun + "'"+ " WHERE idDisquera=" + idAux.ToString();
             SqlCommand comando = new SqlCommand(cadena, conexion);
 
             comando.ExecuteNonQuery();
@@ -164,7 +177,7 @@ namespace Proyecto_Adimn_BD
             string paginaWeb = textBox4.Text;
             string fechaFun = dateTimePicker2.Value.ToString("yyyy/MM/dd");
             //MessageBox.Show(fechaFun);
-            string cadena = "DELETE FROM Disquera WHERE idDisquera=" + idAux.ToString(); ;
+            string cadena = "DELETE FROM Disquera WHERE idDisquera=" + idAux.ToString();
             SqlCommand comando = new SqlCommand(cadena, conexion);
 
             comando.ExecuteNonQuery();
@@ -174,6 +187,66 @@ namespace Proyecto_Adimn_BD
             muestraDatos("Disquera", dataGridView3);
             button7.Enabled = false;
             button8.Enabled = false;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string nombre = textBox1.Text;
+            string email = textBox2.Text;
+            string fechaN = dateTimePicker1.Value.ToString("yyyy/MM/dd");
+            DateTime thisDay = DateTime.Today;
+            string fechaAc = thisDay.ToString("yyyy/MM/dd");
+            string cadena = "UPDATE Miembro SET NombreMiembro = '" + nombre + "' , Email = '" + email + "' , FechaNacimiento = '" + fechaN + "' , MiembroDesde = '" + fechaAc + "' WHERE idMiembro=" + idAux.ToString();
+              
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            textBox1.Text = "";
+            textBox2.Text = "";
+            dateTimePicker1.Text = "";
+            muestraDatos("Miembro", dataGridView1);
+            button3.Enabled = false;
+            button2.Enabled = false;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string nombre = textBox1.Text;
+            string email = textBox2.Text;
+            string fechaN = dateTimePicker1.Value.ToString("yyyy/MM/dd");
+            string cadena = "DELETE FROM Miembro WHERE idMiembro=" + idAux.ToString();
+
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            textBox1.Text = "";
+            textBox2.Text = "";
+            dateTimePicker1.Text = "";
+
+            muestraDatos("Miembro", dataGridView1);
+            button2.Enabled = false;
+            button3.Enabled = false;
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+            
+        }
+
+        private void dataGridView1_Click(object sender, EventArgs e)
+        {
+            int index;
+            index = dataGridView1.CurrentRow.Index;
+
+            string id = dataGridView1.Rows[index].Cells[0].Value.ToString();
+            idAux = int.Parse(id);
+            textBox1.Text = dataGridView1.Rows[index].Cells[1].Value.ToString();
+            textBox2.Text = dataGridView1.Rows[index].Cells[3].Value.ToString();
+            dateTimePicker1.Text = dataGridView1.Rows[index].Cells[4].Value.ToString();
+            button2.Enabled = true;
+            button3.Enabled = true;
         }
     }
 }
