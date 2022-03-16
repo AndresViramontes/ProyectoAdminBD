@@ -15,6 +15,7 @@ namespace Proyecto_Adimn_BD
     {
         int idAux;
         int idRow;
+        List<string> paises;
         SqlConnection conexion;
         public Form1()
         {
@@ -22,20 +23,45 @@ namespace Proyecto_Adimn_BD
              "database=Sistema_Musica; integrated security = true");
             conexion.Open();
             InitializeComponent();
+            llenaLista();
             muestraDatos("Genero", dataGridView2);
             muestraDatos("Disquera", dataGridView3);
             muestraDatos("Miembro", dataGridView1);
+            muestraDatos("Compositor", dataGridView4);
+            foreach (string s in paises)
+            {
+                comboBox1.Items.Add(s);
+            }
             button2.Enabled = false;
             button3.Enabled = false;
             button4.Enabled = false;
             button5.Enabled = false;
             button7.Enabled = false;
             button8.Enabled = false;
+            button11.Enabled = false;
+            button10.Enabled = false;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             
+        }
+        private void llenaLista()
+        {
+            paises = new List<string>();
+            paises.Add("Reino Unido");
+            paises.Add("Estados Unidos");
+            paises.Add("Japón");
+            paises.Add("México");
+            paises.Add("Brasil");
+            paises.Add("Canadá");
+            paises.Add("China");
+            paises.Add("Alemania");
+            paises.Add("Rusia");
+            paises.Add("India");
+            paises.Add("Colombia");
+            paises.Add("Argentina");
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -247,6 +273,67 @@ namespace Proyecto_Adimn_BD
             dateTimePicker1.Text = dataGridView1.Rows[index].Cells[4].Value.ToString();
             button2.Enabled = true;
             button3.Enabled = true;
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            string nombre = textBox7.Text;
+            string pais = comboBox1.Text;
+            string cadena = "INSERT INTO Compositor(NombreCompositor,PaisOrigen,NumeroCanciones)" +
+               "VALUES ('" + nombre + "','" + pais + "',"+ 0 +")";
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            textBox7.Text = "";
+            comboBox1.Text = "";
+            muestraDatos("Compositor", dataGridView4);
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            string nombre = textBox7.Text;
+            string pais = comboBox1.Text;
+            string cadena = "UPDATE Compositor SET NombreCompositor = '" + nombre + "' , PaisOrigen = '" + pais +"' WHERE idCompositor=" + idAux.ToString();
+
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            textBox7.Text = "";
+            comboBox1.Text = "";
+            muestraDatos("Compositor", dataGridView4);
+            button11.Enabled = false;
+            button10.Enabled = false;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            string nombre = textBox7.Text;
+            string pais = comboBox1.Text;
+            
+            string cadena = "DELETE FROM Compositor WHERE idCompositor=" + idAux.ToString();
+
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            textBox7.Text = "";
+            comboBox1.Text = "";
+           
+            muestraDatos("Compositor", dataGridView4);
+            button11.Enabled = false;
+            button10.Enabled = false;
+        }
+
+        private void dataGridView4_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index;
+            index = dataGridView1.CurrentRow.Index;
+
+            string id = dataGridView4.Rows[index].Cells[0].Value.ToString();
+            idAux = int.Parse(id);
+            textBox7.Text = dataGridView4.Rows[index].Cells[1].Value.ToString();
+            comboBox1.Text = dataGridView4.Rows[index].Cells[3].Value.ToString();
+            button11.Enabled = true;
+            button10.Enabled = true;
         }
     }
 }
