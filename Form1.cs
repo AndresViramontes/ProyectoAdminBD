@@ -19,7 +19,7 @@ namespace Proyecto_Adimn_BD
         SqlConnection conexion;
         public Form1()
         {
-            conexion = new SqlConnection("server=ANDREW-PC\\SQLEXPRESS;" +
+            conexion = new SqlConnection("server=DESKTOP-N3D010C\\SQLEXPRESS;" +
              "database=Sistema_Musica; integrated security = true");
             conexion.Open();
             InitializeComponent();
@@ -325,8 +325,13 @@ namespace Proyecto_Adimn_BD
 
         private void dataGridView4_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            //nada
+        }
+
+        private void dataGridView4_Click(object sender, EventArgs e)
+        {
             int index;
-            index = dataGridView1.CurrentRow.Index;
+            index = dataGridView4.CurrentRow.Index;
 
             string id = dataGridView4.Rows[index].Cells[0].Value.ToString();
             idAux = int.Parse(id);
