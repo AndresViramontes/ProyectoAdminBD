@@ -28,6 +28,10 @@ namespace Proyecto_Adimn_BD
             muestraDatos("Disquera", dataGridView3);
             muestraDatos("Miembro", dataGridView1);
             muestraDatos("Compositor", dataGridView4);
+            muestraDatos("Artista", dataGridView5);
+            muestraDatos("Playlist", dataGridView6);
+            llaveforandisq(comboBox2);
+            llaveforanMimb(comboBox3);
             foreach (string s in paises)
             {
                 comboBox1.Items.Add(s);
@@ -40,6 +44,8 @@ namespace Proyecto_Adimn_BD
             button8.Enabled = false;
             button11.Enabled = false;
             button10.Enabled = false;
+            button14.Enabled = false;
+            button13.Enabled = false;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -80,6 +86,7 @@ namespace Proyecto_Adimn_BD
             textBox2.Text = "";
             dateTimePicker1.Text = "";
             muestraDatos("Miembro", dataGridView1);
+            llaveforanMimb(comboBox3);
         }
 
         private void label7_Click(object sender, EventArgs e)
@@ -100,7 +107,7 @@ namespace Proyecto_Adimn_BD
             textBox3.Text = "";
             muestraDatos("Genero",dataGridView2);
         }
-        public void muestraDatos(string Tabla,DataGridView dataGridView)
+        public void muestraDatos(string Tabla,DataGridView dataGridView)//FUNCION PARA MOSTRAR DATOS EN EL DATAGRIDVIEW
         {
             string sql = "SELECT * FROM "+ Tabla;
             SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
@@ -108,7 +115,40 @@ namespace Proyecto_Adimn_BD
             dataAdapter.Fill(dt);
             dataGridView.DataSource = dt;
         }
+        public void llaveforandisq(ComboBox cb)//carga los valores de disquera en un combobox 
+        {
+            cb.Items.Clear();
+            string sql = "SELECT idDisquera,NombreDisquera FROM Disquera";
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
+            DataSet dt = new DataSet();
+            dataAdapter.Fill(dt);
+            int i = 0;
+            foreach (DataRow row in dt.Tables[0].Rows)
+            {
+                string ad;
+                ad = row["idDisquera"].ToString()+ ","+ row["NombreDisquera"].ToString();
+                cb.Items.Add(ad);
+                i++;
+            }
 
+        }
+        public void llaveforanMimb(ComboBox cb)//carga los valores de disquera en un combobox 
+        {
+            cb.Items.Clear();
+            string sql = "SELECT idMiembro,NombreMiembro,Edad FROM Miembro ";
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
+            DataSet dt = new DataSet();
+            dataAdapter.Fill(dt);
+            int i = 0;
+            foreach (DataRow row in dt.Tables[0].Rows)
+            {
+                string ad;
+                ad = row["idMiembro"].ToString() + "," + row["NombreMiembro"].ToString() + "("+row["Edad"].ToString() +")";
+                cb.Items.Add(ad);
+                i++;
+            }
+
+        }
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int index;
@@ -162,6 +202,7 @@ namespace Proyecto_Adimn_BD
             textBox5.Text = "";
             dateTimePicker2.Text = "";
             muestraDatos("Disquera", dataGridView3);
+            llaveforandisq(comboBox2);
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -181,6 +222,7 @@ namespace Proyecto_Adimn_BD
             muestraDatos("Disquera", dataGridView3);
             button7.Enabled = false;
             button8.Enabled = false;
+            llaveforandisq(comboBox2);
         }
 
         private void dataGridView3_Click(object sender, EventArgs e)
@@ -213,6 +255,7 @@ namespace Proyecto_Adimn_BD
             muestraDatos("Disquera", dataGridView3);
             button7.Enabled = false;
             button8.Enabled = false;
+            llaveforandisq(comboBox2);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -233,6 +276,7 @@ namespace Proyecto_Adimn_BD
             muestraDatos("Miembro", dataGridView1);
             button3.Enabled = false;
             button2.Enabled = false;
+            llaveforanMimb(comboBox3);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -252,6 +296,7 @@ namespace Proyecto_Adimn_BD
             muestraDatos("Miembro", dataGridView1);
             button2.Enabled = false;
             button3.Enabled = false;
+            llaveforanMimb(comboBox3);
 
         }
 
@@ -339,6 +384,142 @@ namespace Proyecto_Adimn_BD
             comboBox1.Text = dataGridView4.Rows[index].Cells[3].Value.ToString();
             button11.Enabled = true;
             button10.Enabled = true;
+        }
+        public string separaId(string a)//obtiene el id despues de una concatenacion 
+        {
+            string x="";
+            char[] car = a.ToCharArray();
+            foreach(char e in car)
+            {
+                if (e == ',')
+                    return x;
+                x = x + e;
+            }
+            return x;
+        }
+        private void button15_Click(object sender, EventArgs e)
+        {
+            string id_Disquera = separaId(comboBox2.Text);
+            string nombre = textBox6.Text;
+            //MessageBox.Show(fechaFun);
+            string cadena = "INSERT INTO Artista(idDisquera,NombreArtista)" +
+               "VALUES ('" + id_Disquera + "','" + nombre + "')";
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            comboBox2.SelectedItem = null;
+            textBox6.Text = "";
+            muestraDatos("Artista", dataGridView5);
+            muestraDatos("Disquera", dataGridView3);
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            string id_Disquera = separaId(comboBox2.Text);
+            string nombre = textBox6.Text;
+            //MessageBox.Show(fechaFun);
+            string cadena = "DELETE FROM Artista WHERE idArtista=" + idAux.ToString();
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            comboBox2.SelectedItem = null;
+            textBox6.Text = "";
+            button13.Enabled = false;
+            button14.Enabled = false;
+            muestraDatos("Artista", dataGridView5);
+            muestraDatos("Disquera", dataGridView3);
+        }
+
+        private void dataGridView5_Click(object sender, EventArgs e)
+        {
+            int index;
+            index = dataGridView5.CurrentRow.Index;
+
+            string id = dataGridView5.Rows[index].Cells[0].Value.ToString();
+            idAux = int.Parse(id);
+            //comboBox2.SelectedItem = comboBox2.SelectedIndex\
+            foreach (var item in comboBox2.Items)
+            {
+                if (separaId(item.ToString()) == dataGridView5.Rows[index].Cells[1].Value.ToString())
+                   comboBox2.Text =item.ToString();
+            }
+            textBox6.Text = dataGridView5.Rows[index].Cells[2].Value.ToString();
+            button14.Enabled = true;
+            button13.Enabled = true;
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            string id_Disquera = separaId(comboBox2.Text);
+            string nombre = textBox6.Text;
+            //MessageBox.Show(fechaFun);
+            string cadena = "UPDATE Artista SET idDisquera=" + "'" + id_Disquera + "'," + "NombreArtista=" + "'" + nombre +
+               "' WHERE idArtista=" + idAux.ToString();
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            comboBox2.SelectedItem = null;
+            textBox6.Text = "";
+            button13.Enabled = false;
+            button14.Enabled = false;
+            muestraDatos("Artista", dataGridView5);
+            muestraDatos("Disquera", dataGridView3);
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            string id_Miembro = separaId(comboBox3.Text);
+            string nombre = textBox8.Text;
+            string priv = comboBox4.Text;
+            //MessageBox.Show(fechaFun);
+            string cadena = "INSERT INTO Playlist(idMiembro,NombrePlaylist,FechaCreacion,Privada)" +
+               "VALUES ('" + id_Miembro + "','" + nombre + "','" + DateTime.Today.ToString() +"','" + priv + "')";
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            comboBox3.SelectedItem = null;
+            comboBox4.SelectedItem = null;
+            textBox8.Text = "";
+            muestraDatos("Playlist", dataGridView6);
+            //muestraDatos("Disquera", dataGridView6);
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            string id_Miembro = separaId(comboBox3.Text);
+            string nombre = textBox8.Text;
+            string priv = comboBox4.Text;
+            //MessageBox.Show(fechaFun);
+            string cadena = "INSERT INTO Playlist(idMiembro,NombrePlaylist,FechaCreacion,Privada)" +
+               "VALUES ('" + id_Miembro + "','" + nombre + "','" + DateTime.Today.ToString() + "','" + priv + "')";
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            comboBox3.SelectedItem = null;
+            comboBox4.SelectedItem = null;
+            textBox8.Text = "";
+            muestraDatos("Playlist", dataGridView6);
+            //muestraDatos("Disquera", dataGridView6);
+        }
+
+        private void dataGridView6_Click(object sender, EventArgs e)
+        {
+            int index;
+            index = dataGridView6.CurrentRow.Index;
+
+            string id = dataGridView6.Rows[index].Cells[0].Value.ToString();
+            idAux = int.Parse(id);
+            //comboBox2.SelectedItem = comboBox2.SelectedIndex\
+            foreach (var item in comboBox3.Items)
+            {
+                if (separaId(item.ToString()) == dataGridView6.Rows[index].Cells[1].Value.ToString())
+                    comboBox3.Text = item.ToString();
+            }
+            textBox8.Text = dataGridView6.Rows[index].Cells[2].Value.ToString();
+            comboBox4.Text = dataGridView6.Rows[index].Cells[5].Value.ToString();
+            
+            button14.Enabled = true;
+            button13.Enabled = true;
         }
     }
 }
