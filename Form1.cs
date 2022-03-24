@@ -19,7 +19,7 @@ namespace Proyecto_Adimn_BD
         SqlConnection conexion;
         public Form1()
         {
-            conexion = new SqlConnection("server=DESKTOP-N3D010C\\SQLEXPRESS;" +
+            conexion = new SqlConnection("server=ANDREW-PC\\SQLEXPRESS;" +
              "database=Sistema_Musica; integrated security = true");
             conexion.Open();
             InitializeComponent();
@@ -194,7 +194,7 @@ namespace Proyecto_Adimn_BD
                 dataAdapter2.Fill(dt2);
                 string ad;
                 DataRow row2 = dt2.Tables[0].Rows[0];
-                ad = row["idArtista"].ToString() + "," + row["NombreArtista"].ToString()+row2["NombreDisquera"];
+                ad = row["idArtista"].ToString() + "," + row["NombreArtista"].ToString()+", "+row2["NombreDisquera"];
                 cb.Items.Add(ad);
                 i++;
             }
@@ -527,9 +527,8 @@ namespace Proyecto_Adimn_BD
             string id_Miembro = separaId(comboBox3.Text);
             string nombre = textBox8.Text;
             string priv = comboBox4.Text;
-            //MessageBox.Show(fechaFun);
             string cadena = "INSERT INTO Playlist(idMiembro,NombrePlaylist,FechaCreacion,Privada)" +
-               "VALUES ('" + id_Miembro + "','" + nombre + "','" + DateTime.Today.ToString() +"','" + priv + "')";
+               "VALUES ('" + id_Miembro + "','" + nombre + "','" + DateTime.Today.ToString("yyyy/MM/dd") +"','" + priv + "')";
             SqlCommand comando = new SqlCommand(cadena, conexion);
 
             comando.ExecuteNonQuery();
