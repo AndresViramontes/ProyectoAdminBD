@@ -30,8 +30,11 @@ namespace Proyecto_Adimn_BD
             muestraDatos("Compositor", dataGridView4);
             muestraDatos("Artista", dataGridView5);
             muestraDatos("Playlist", dataGridView6);
+            muestraDatos("Album", dataGridAlbum);
             llaveforandisq(comboBox2);
             llaveforanMimb(comboBox3);
+            llaveforanGen(comboBoxGen);
+            llaveforanArt(comboBoxArt);
             foreach (string s in paises)
             {
                 comboBox1.Items.Add(s);
@@ -46,6 +49,8 @@ namespace Proyecto_Adimn_BD
             button10.Enabled = false;
             button14.Enabled = false;
             button13.Enabled = false;
+            button17.Enabled = false;
+            button16.Enabled = false;
             buttonModAlb.Enabled = false;
             buttonDelAlb.Enabled = false;
             buttonModCan.Enabled = false;
@@ -112,6 +117,7 @@ namespace Proyecto_Adimn_BD
             comando.ExecuteNonQuery();
             textBox3.Text = "";
             muestraDatos("Genero",dataGridView2);
+            llaveforanGen(comboBoxGen);
         }
         public void muestraDatos(string Tabla,DataGridView dataGridView)//FUNCION PARA MOSTRAR DATOS EN EL DATAGRIDVIEW
         {
@@ -155,6 +161,45 @@ namespace Proyecto_Adimn_BD
             }
 
         }
+        public void llaveforanGen(ComboBox cb)//carga los valores de disquera en un combobox 
+        {
+            cb.Items.Clear();
+            string sql = "SELECT idGenero,NombreGenero FROM Genero ";
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
+            DataSet dt = new DataSet();
+            dataAdapter.Fill(dt);
+            int i = 0;
+            foreach (DataRow row in dt.Tables[0].Rows)
+            {
+                string ad;
+                ad = row["idGenero"].ToString() + "," + row["NombreGenero"].ToString();
+                cb.Items.Add(ad);
+                i++;
+            }
+
+        }
+        public void llaveforanArt(ComboBox cb)//carga los valores de disquera en un combobox 
+        {
+            cb.Items.Clear();
+            string sql = "SELECT idArtista,NombreArtista,idDisquera FROM Artista ";
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
+            DataSet dt = new DataSet();
+            dataAdapter.Fill(dt);
+            int i = 0;
+            foreach (DataRow row in dt.Tables[0].Rows)
+            {
+                string sql2 = "SELECT NombreDisquera FROM Disquera WHERE idDisquera=" + row["idDisquera"];
+                SqlDataAdapter dataAdapter2 = new SqlDataAdapter(sql2, conexion);
+                DataSet dt2 = new DataSet();
+                dataAdapter2.Fill(dt2);
+                string ad;
+                DataRow row2 = dt2.Tables[0].Rows[0];
+                ad = row["idArtista"].ToString() + "," + row["NombreArtista"].ToString()+row2["NombreDisquera"];
+                cb.Items.Add(ad);
+                i++;
+            }
+
+        }
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int index;
@@ -178,6 +223,7 @@ namespace Proyecto_Adimn_BD
             muestraDatos("Genero", dataGridView2);
             button4.Enabled = false;
             button5.Enabled = false;
+            llaveforanGen(comboBoxGen);
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -191,6 +237,7 @@ namespace Proyecto_Adimn_BD
             muestraDatos("Genero", dataGridView2);
             button4.Enabled = false;
             button5.Enabled = false;
+            llaveforanGen(comboBoxGen);
         }
 
         private void button9_Click(object sender, EventArgs e)
@@ -417,6 +464,7 @@ namespace Proyecto_Adimn_BD
             textBox6.Text = "";
             muestraDatos("Artista", dataGridView5);
             muestraDatos("Disquera", dataGridView3);
+            llaveforanArt(comboBoxArt);
         }
 
         private void button13_Click(object sender, EventArgs e)
@@ -434,6 +482,7 @@ namespace Proyecto_Adimn_BD
             button14.Enabled = false;
             muestraDatos("Artista", dataGridView5);
             muestraDatos("Disquera", dataGridView3);
+            llaveforanArt(comboBoxArt);
         }
 
         private void dataGridView5_Click(object sender, EventArgs e)
@@ -470,6 +519,7 @@ namespace Proyecto_Adimn_BD
             button14.Enabled = false;
             muestraDatos("Artista", dataGridView5);
             muestraDatos("Disquera", dataGridView3);
+            llaveforanArt(comboBoxArt);
         }
 
         private void button18_Click(object sender, EventArgs e)
@@ -496,16 +546,17 @@ namespace Proyecto_Adimn_BD
             string nombre = textBox8.Text;
             string priv = comboBox4.Text;
             //MessageBox.Show(fechaFun);
-            string cadena = "INSERT INTO Playlist(idMiembro,NombrePlaylist,FechaCreacion,Privada)" +
-               "VALUES ('" + id_Miembro + "','" + nombre + "','" + DateTime.Today.ToString() + "','" + priv + "')";
+            string cadena = "UPDATE Playlist SET idMiembro=" + "'" + id_Miembro + "'," + "NombrePlaylist='" + nombre + "'," + "Privada='" + priv +
+              "' WHERE idPlaylist=" + idAux.ToString();
             SqlCommand comando = new SqlCommand(cadena, conexion);
-
             comando.ExecuteNonQuery();
             comboBox3.SelectedItem = null;
             comboBox4.SelectedItem = null;
             textBox8.Text = "";
             muestraDatos("Playlist", dataGridView6);
             //muestraDatos("Disquera", dataGridView6);
+            button16.Enabled = false;
+            button17.Enabled = false;
         }
 
         private void dataGridView6_Click(object sender, EventArgs e)
@@ -524,8 +575,8 @@ namespace Proyecto_Adimn_BD
             textBox8.Text = dataGridView6.Rows[index].Cells[2].Value.ToString();
             comboBox4.Text = dataGridView6.Rows[index].Cells[5].Value.ToString();
             
-            button14.Enabled = true;
-            button13.Enabled = true;
+            button16.Enabled = true;
+            button17.Enabled = true;
         }
 
         private void button21_Click(object sender, EventArgs e)
@@ -541,6 +592,113 @@ namespace Proyecto_Adimn_BD
         private void buttonDelCan_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            string id_Miembro = separaId(comboBox3.Text);
+            string nombre = textBox8.Text;
+            string priv = comboBox4.Text;
+            //MessageBox.Show(fechaFun);
+            string cadena = "DELETE FROM Playlist  WHERE idPlaylist=" + idAux.ToString();
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+            comando.ExecuteNonQuery();
+            comboBox3.SelectedItem = null;
+            comboBox4.SelectedItem = null;
+            textBox8.Text = "";
+            muestraDatos("Playlist", dataGridView6);
+            //muestraDatos("Disquera", dataGridView6);
+            button16.Enabled = false;
+            button17.Enabled = false;
+        }
+
+        private void buttonAddAlb_Click(object sender, EventArgs e)
+        {
+            string id_Genero = separaId(comboBoxGen.Text);
+            string id_Artista = separaId(comboBoxArt.Text);
+            string nombre = textBoxAlbum.Text;
+            string noCanciones = textBoxNumCa.Text;
+            //MessageBox.Show(fechaFun);
+            string cadena = "INSERT INTO Album(idGenero,idArtista,NombreAlbum,CantidadCanciones)" +
+               "VALUES ('" + id_Genero + "','" + id_Artista + "','" + nombre +"','" + noCanciones + "')";
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            comboBoxGen.SelectedItem = null;
+            comboBoxArt.SelectedItem = null;
+            textBoxAlbum.Text = "";
+            textBoxNumCa.Text = "";
+            muestraDatos("Album", dataGridAlbum);
+            muestraDatos("Artista", dataGridView5);
+            //muestraDatos("Disquera", dataGridView6);
+        }
+
+        private void dataGridAlbum_Click(object sender, EventArgs e)
+        {
+            int index;
+            index = dataGridAlbum.CurrentRow.Index;
+
+            string id = dataGridAlbum.Rows[index].Cells[0].Value.ToString();
+            idAux = int.Parse(id);
+            //comboBox2.SelectedItem = comboBox2.SelectedIndex\
+            foreach (var item in comboBoxGen.Items)
+            {
+                if (separaId(item.ToString()) == dataGridAlbum.Rows[index].Cells[1].Value.ToString())
+                    comboBoxGen.Text = item.ToString();
+            }
+            foreach (var item in comboBoxArt.Items)
+            {
+                if (separaId(item.ToString()) == dataGridAlbum.Rows[index].Cells[2].Value.ToString())
+                    comboBoxArt.Text = item.ToString();
+            }
+            textBoxAlbum.Text = dataGridAlbum.Rows[index].Cells[3].Value.ToString();
+            textBoxNumCa.Text = dataGridAlbum.Rows[index].Cells[4].Value.ToString();
+
+            buttonModAlb.Enabled = true;
+            buttonDelAlb.Enabled = true;
+        }
+
+        private void buttonModAlb_Click(object sender, EventArgs e)
+        {
+            string id_Genero = separaId(comboBoxGen.Text);
+            string id_Artista = separaId(comboBoxArt.Text);
+            string nombre = textBoxAlbum.Text;
+            string noCanciones = textBoxNumCa.Text;
+            //MessageBox.Show(fechaFun);
+            string cadena = "UPDATE Album SET idGenero=" + "'" + id_Genero + "'," + "idArtista='" + id_Artista + "'," + "NombreAlbum='" + nombre + "'," + "CantidadCanciones='" + noCanciones +
+              "' WHERE idAlbum=" + idAux.ToString();
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+            
+            comando.ExecuteNonQuery();
+            comboBoxGen.SelectedItem = null;
+            comboBoxArt.SelectedItem = null;
+            textBoxAlbum.Text = "";
+            textBoxNumCa.Text = "";
+            muestraDatos("Album", dataGridAlbum);
+            buttonModAlb.Enabled = false;
+            buttonDelAlb.Enabled = false;
+            muestraDatos("Artista", dataGridView5);
+        }
+
+        private void buttonDelAlb_Click(object sender, EventArgs e)
+        {
+            string id_Genero = separaId(comboBoxGen.Text);
+            string id_Artista = separaId(comboBoxArt.Text);
+            string nombre = textBoxAlbum.Text;
+            string noCanciones = textBoxNumCa.Text;
+            //MessageBox.Show(fechaFun);
+            string cadena = "DELETE FROM Album  WHERE idAlbum=" + idAux.ToString();
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            comboBoxGen.SelectedItem = null;
+            comboBoxArt.SelectedItem = null;
+            textBoxAlbum.Text = "";
+            textBoxNumCa.Text = "";
+            muestraDatos("Album", dataGridAlbum);
+            buttonModAlb.Enabled = false;
+            buttonDelAlb.Enabled = false;
+            muestraDatos("Artista", dataGridView5);
         }
     }
 }
