@@ -46,6 +46,12 @@ namespace Proyecto_Adimn_BD
             button10.Enabled = false;
             button14.Enabled = false;
             button13.Enabled = false;
+            buttonModAlb.Enabled = false;
+            buttonDelAlb.Enabled = false;
+            buttonModCan.Enabled = false;
+            buttonDelCan.Enabled = false;
+            buttonModDet.Enabled = false;
+            buttonDelDet.Enabled = false;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -520,6 +526,21 @@ namespace Proyecto_Adimn_BD
             
             button14.Enabled = true;
             button13.Enabled = true;
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonModCan_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonDelCan_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
