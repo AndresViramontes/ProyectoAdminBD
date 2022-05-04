@@ -17,9 +17,10 @@ namespace Proyecto_Adimn_BD
         int idRow;
         List<string> paises;
         SqlConnection conexion;
+        List<string> idAlbum;
         public Form1()
         {
-            conexion = new SqlConnection("server=ANDREW-PC\\SQLEXPRESS;" +
+            conexion = new SqlConnection("server=DESKTOP-N3D010C\\SQLEXPRESS;" +
              "database=Sistema_Musica; integrated security = true");
             conexion.Open();
             InitializeComponent();
@@ -35,6 +36,7 @@ namespace Proyecto_Adimn_BD
             llaveforanMimb(comboBox3);
             llaveforanGen(comboBoxGen);
             llaveforanArt(comboBoxArt);
+            llaveforanAlbm(comboBoxAlb);
             foreach (string s in paises)
             {
                 comboBox1.Items.Add(s);
@@ -143,6 +145,29 @@ namespace Proyecto_Adimn_BD
                 i++;
             }
 
+        }
+        public void llaveforanAlbm(ComboBox cb)
+        {
+            cb.Items.Clear();
+            idAlbum = new List<string>();
+            string sql = "SELECT idAlbum,NombreAlbum,idArtista,CantidadCanciones FROM Album";
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
+            DataSet dt = new DataSet();
+            dataAdapter.Fill(dt);
+            int i = 0;
+            foreach (DataRow row in dt.Tables[0].Rows)
+            {
+                string sql2 = "SELECT NombreArtista FROM Artista WHERE idArtista=" + row["idArtista"];
+                SqlDataAdapter dataAdapter2 = new SqlDataAdapter(sql2, conexion);
+                DataSet dt2 = new DataSet();
+                dataAdapter2.Fill(dt2);
+                string ad;
+                DataRow row2 = dt2.Tables[0].Rows[0];
+                ad = row2["NombreArtista"] + ", " + row["NombreAlbum"].ToString() + "(" + row["CantidadCanciones"] + ")";
+                idAlbum.Add(row["idAlbum"].ToString());
+                cb.Items.Add(ad);
+                i++;
+            }
         }
         public void llaveforanMimb(ComboBox cb)//carga los valores de disquera en un combobox 
         {
