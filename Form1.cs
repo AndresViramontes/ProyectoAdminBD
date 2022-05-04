@@ -37,6 +37,7 @@ namespace Proyecto_Adimn_BD
             llaveforanGen(comboBoxGen);
             llaveforanArt(comboBoxArt);
             llaveforanAlbm(comboBoxAlb);
+            llaveforanComp(comboBoxComp);
             foreach (string s in paises)
             {
                 comboBox1.Items.Add(s);
@@ -224,6 +225,27 @@ namespace Proyecto_Adimn_BD
                 i++;
             }
 
+        }
+        public void llaveforanComp(ComboBox cb)//carga los valores de disquera en un combobox 
+        {
+            cb.Items.Clear();
+            string sql = "SELECT idCompositor,NombreCompositor FROM Compositor ";
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
+            DataSet dt = new DataSet();
+            dataAdapter.Fill(dt);
+            int i = 0;
+            foreach (DataRow row in dt.Tables[0].Rows)
+            {
+                //string sql2 = "SELECT NombreDisquera FROM Disquera WHERE idDisquera=" + row["idDisquera"];
+                //SqlDataAdapter dataAdapter2 = new SqlDataAdapter(sql2, conexion);
+                //DataSet dt2 = new DataSet();
+                //dataAdapter2.Fill(dt2);
+                string ad;
+                //DataRow row2 = dt2.Tables[0].Rows[0];
+                ad = row["idCompositor"].ToString() + "," + row["NombreCompositor"].ToString() ;
+                cb.Items.Add(ad);
+                i++;
+            }
         }
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -654,6 +676,7 @@ namespace Proyecto_Adimn_BD
             textBoxNumCa.Text = "";
             muestraDatos("Album", dataGridAlbum);
             muestraDatos("Artista", dataGridView5);
+            llaveforanAlbm(comboBoxAlb);
             //muestraDatos("Disquera", dataGridView6);
         }
 
@@ -702,6 +725,7 @@ namespace Proyecto_Adimn_BD
             buttonModAlb.Enabled = false;
             buttonDelAlb.Enabled = false;
             muestraDatos("Artista", dataGridView5);
+            llaveforanAlbm(comboBoxAlb);
         }
 
         private void buttonDelAlb_Click(object sender, EventArgs e)
@@ -723,6 +747,7 @@ namespace Proyecto_Adimn_BD
             buttonModAlb.Enabled = false;
             buttonDelAlb.Enabled = false;
             muestraDatos("Artista", dataGridView5);
+            llaveforanAlbm(comboBoxAlb);
         }
     }
 }
