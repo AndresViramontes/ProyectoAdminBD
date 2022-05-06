@@ -103,6 +103,15 @@
             this.textBoxAlbum = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.label28 = new System.Windows.Forms.Label();
+            this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.buttonDelCan = new System.Windows.Forms.Button();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.textBox9 = new System.Windows.Forms.TextBox();
             this.buttonModCan = new System.Windows.Forms.Button();
             this.buttonAddCan = new System.Windows.Forms.Button();
             this.dataGridCancion = new System.Windows.Forms.DataGridView();
@@ -124,13 +133,6 @@
             this.label26 = new System.Windows.Forms.Label();
             this.comboBoxPlayList = new System.Windows.Forms.ComboBox();
             this.label27 = new System.Windows.Forms.Label();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.buttonDelCan = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -1065,6 +1067,9 @@
             // 
             // tabPage8
             // 
+            this.tabPage8.AllowDrop = true;
+            this.tabPage8.Controls.Add(this.label28);
+            this.tabPage8.Controls.Add(this.comboBox5);
             this.tabPage8.Controls.Add(this.buttonDelCan);
             this.tabPage8.Controls.Add(this.label32);
             this.tabPage8.Controls.Add(this.label31);
@@ -1092,6 +1097,103 @@
             this.tabPage8.TabIndex = 8;
             this.tabPage8.Text = "Cancion";
             this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Location = new System.Drawing.Point(28, 366);
+            this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(80, 24);
+            this.label28.TabIndex = 62;
+            this.label28.Text = "Explicita";
+            // 
+            // comboBox5
+            // 
+            this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox5.FormattingEnabled = true;
+            this.comboBox5.Items.AddRange(new object[] {
+            "SI",
+            "NO"});
+            this.comboBox5.Location = new System.Drawing.Point(27, 399);
+            this.comboBox5.Name = "comboBox5";
+            this.comboBox5.Size = new System.Drawing.Size(295, 24);
+            this.comboBox5.TabIndex = 61;
+            // 
+            // buttonDelCan
+            // 
+            this.buttonDelCan.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.buttonDelCan.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDelCan.Location = new System.Drawing.Point(27, 667);
+            this.buttonDelCan.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonDelCan.Name = "buttonDelCan";
+            this.buttonDelCan.Size = new System.Drawing.Size(301, 52);
+            this.buttonDelCan.TabIndex = 60;
+            this.buttonDelCan.Text = "Eliminar";
+            this.buttonDelCan.UseVisualStyleBackColor = true;
+            this.buttonDelCan.Click += new System.EventHandler(this.buttonDelCan_Click_1);
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.Location = new System.Drawing.Point(67, 244);
+            this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(0, 24);
+            this.label32.TabIndex = 59;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.Location = new System.Drawing.Point(67, 242);
+            this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(15, 24);
+            this.label31.TabIndex = 58;
+            this.label31.Text = ":";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(28, 214);
+            this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(26, 24);
+            this.label30.TabIndex = 57;
+            this.label30.Text = "M";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(78, 214);
+            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(22, 24);
+            this.label29.TabIndex = 56;
+            this.label29.Text = "S";
+            // 
+            // textBox10
+            // 
+            this.textBox10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox10.Location = new System.Drawing.Point(27, 242);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(32, 26);
+            this.textBox10.TabIndex = 54;
+            // 
+            // textBox9
+            // 
+            this.textBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox9.Location = new System.Drawing.Point(82, 242);
+            this.textBox9.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(32, 26);
+            this.textBox9.TabIndex = 53;
             // 
             // buttonModCan
             // 
@@ -1128,6 +1230,7 @@
             this.dataGridCancion.RowHeadersWidth = 51;
             this.dataGridCancion.Size = new System.Drawing.Size(719, 731);
             this.dataGridCancion.TabIndex = 50;
+            this.dataGridCancion.Click += new System.EventHandler(this.dataGridCancion_Click);
             // 
             // dateTimeLanza
             // 
@@ -1277,6 +1380,7 @@
             this.buttonAddDet.TabIndex = 51;
             this.buttonAddDet.Text = "Añadir";
             this.buttonAddDet.UseVisualStyleBackColor = true;
+            this.buttonAddDet.Click += new System.EventHandler(this.buttonAddDet_Click);
             // 
             // dataGridDetalle
             // 
@@ -1287,6 +1391,7 @@
             this.dataGridDetalle.RowHeadersWidth = 51;
             this.dataGridDetalle.Size = new System.Drawing.Size(719, 740);
             this.dataGridDetalle.TabIndex = 50;
+            this.dataGridDetalle.Click += new System.EventHandler(this.dataGridDetalle_Click);
             // 
             // comboBoxCan
             // 
@@ -1332,79 +1437,6 @@
             this.label27.Size = new System.Drawing.Size(66, 24);
             this.label27.TabIndex = 46;
             this.label27.Text = "Playlist";
-            // 
-            // textBox9
-            // 
-            this.textBox9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox9.Location = new System.Drawing.Point(82, 242);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(32, 26);
-            this.textBox9.TabIndex = 53;
-            // 
-            // textBox10
-            // 
-            this.textBox10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox10.Location = new System.Drawing.Point(27, 242);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(32, 26);
-            this.textBox10.TabIndex = 54;
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(78, 214);
-            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(22, 24);
-            this.label29.TabIndex = 56;
-            this.label29.Text = "S";
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(28, 214);
-            this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(26, 24);
-            this.label30.TabIndex = 57;
-            this.label30.Text = "M";
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label31.Location = new System.Drawing.Point(67, 242);
-            this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(15, 24);
-            this.label31.TabIndex = 58;
-            this.label31.Text = ":";
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(67, 244);
-            this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(0, 24);
-            this.label32.TabIndex = 59;
-            // 
-            // buttonDelCan
-            // 
-            this.buttonDelCan.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.buttonDelCan.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDelCan.Location = new System.Drawing.Point(27, 667);
-            this.buttonDelCan.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonDelCan.Name = "buttonDelCan";
-            this.buttonDelCan.Size = new System.Drawing.Size(301, 52);
-            this.buttonDelCan.TabIndex = 60;
-            this.buttonDelCan.Text = "Eliminar";
-            this.buttonDelCan.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1552,6 +1584,8 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.ComboBox comboBox5;
     }
 }
 
