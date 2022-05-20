@@ -1356,6 +1356,7 @@
             this.buttonDelDet.TabIndex = 53;
             this.buttonDelDet.Text = "Eliminar";
             this.buttonDelDet.UseVisualStyleBackColor = true;
+            this.buttonDelDet.Click += new System.EventHandler(this.buttonDelDet_Click);
             // 
             // buttonModDet
             // 
@@ -1368,6 +1369,7 @@
             this.buttonModDet.TabIndex = 52;
             this.buttonModDet.Text = "Modificar";
             this.buttonModDet.UseVisualStyleBackColor = true;
+            this.buttonModDet.Click += new System.EventHandler(this.buttonModDet_Click);
             // 
             // buttonAddDet
             // 

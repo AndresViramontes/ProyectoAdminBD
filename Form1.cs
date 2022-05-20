@@ -18,6 +18,8 @@ namespace Proyecto_Adimn_BD
         List<string> paises;
         SqlConnection conexion;
         List<string> idAlbum;
+        List<string> idCancion;
+        List<string> idPlay;
         public Form1()
         {
             conexion = new SqlConnection("server=DESKTOP-N3D010C\\SQLEXPRESS;" +
@@ -31,14 +33,22 @@ namespace Proyecto_Adimn_BD
             muestraDatos("Compositor", dataGridView4);
             muestraDatos("Artista", dataGridView5);
             muestraDatos("Playlist", dataGridView6);
+            //muestraDatosPlaylist("Playlist", dataGridView6);
             muestraDatos("Album", dataGridAlbum);
             muestraDatos("Cancion", dataGridCancion);
+            muestraDatos("DetallePlaylist", dataGridDetalle);
             llaveforandisq(comboBox2);
             llaveforanMimb(comboBox3);
             llaveforanGen(comboBoxGen);
             llaveforanArt(comboBoxArt);
             llaveforanAlbm(comboBoxAlb);
             llaveforanComp(comboBoxComp);
+            llaveforacan(comboBoxCan);
+            llaveforaPlay(comboBoxPlayList);
+            muestraDatosPlaylist("Playlist", dataGridView6);
+            muestradatosAlbn("Album", dataGridAlbum);
+            muestradatosCan("Cancion", dataGridCancion);
+            muestradatosDetallP("DetallePlaylist", dataGridDetalle);
             foreach (string s in paises)
             {
                 comboBox1.Items.Add(s);
@@ -131,6 +141,144 @@ namespace Proyecto_Adimn_BD
             dataAdapter.Fill(dt);
             dataGridView.DataSource = dt;
         }
+        public void muestraDatosPlaylist(string Tabla, DataGridView dataGridView)//FUNCION PARA MOSTRAR DATOS EN EL DATAGRIDVIEW
+        {
+            string sql = "SELECT * FROM " + Tabla;
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
+            DataSet dt = new DataSet();
+            dataAdapter.Fill(dt);
+            DataTable dta = new DataTable();
+            dta.Columns.Add("idPlaylist");
+            dta.Columns.Add("Miembro");
+            dta.Columns.Add("NombrePlaylist");
+            dta.Columns.Add("Duracion");
+            dta.Columns.Add("Fecha Creacion");
+            dta.Columns.Add("Privacidad");
+            //dataAdapter.Fill(dt);
+            foreach (DataRow row in dt.Tables[0].Rows)
+            {
+                string sql2 = "SELECT idMiembro,NombreMiembro,Edad FROM Miembro WHERE idMiembro="+row["idMiembro"];
+                SqlDataAdapter dataAdapter2 = new SqlDataAdapter(sql2, conexion);
+                DataSet dt2 = new DataSet();
+                dataAdapter2.Fill(dt2); DataRow row2 = dt2.Tables[0].Rows[0];
+                string ad = row2["idMiembro"].ToString() + "," + row2["NombreMiembro"].ToString() + "(" + row2["Edad"].ToString() + ")";
+                dta.Rows.Add(row["idPlaylist"], ad,row["NombrePlaylist"], row["DuracionTotal"], row["FechaCreacion"], row["Privada"]);
+            }
+            dataGridView.DataSource = dta;
+        }
+        public void muestradatosAlbn(string Tabla, DataGridView dataGridView)
+        {
+            string sql = "SELECT * FROM " + Tabla;
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
+            DataSet dt = new DataSet();
+            dataAdapter.Fill(dt);
+            DataTable dta = new DataTable();
+            dta.Columns.Add("idAlbum");
+            dta.Columns.Add("Genero");
+            dta.Columns.Add("Artista");
+            dta.Columns.Add("Nombre album");
+            dta.Columns.Add("Cantidad de canciones");
+            dta.Columns.Add("Tipo de album");
+            //dataAdapter.Fill(dt);
+            foreach (DataRow row in dt.Tables[0].Rows)
+            {
+                string sql2 = "SELECT idGenero,NombreGenero FROM Genero WHERE idGenero=" + row["idGenero"];
+                SqlDataAdapter dataAdapter2 = new SqlDataAdapter(sql2, conexion);
+                DataSet dt2 = new DataSet();
+                dataAdapter2.Fill(dt2); 
+                DataRow row2 = dt2.Tables[0].Rows[0];
+                string ad = row2["idGenero"].ToString() + "," + row2["NombreGenero"].ToString() ;
+                string sql3 = "SELECT idArtista,NombreArtista,idDisquera FROM Artista WHERE idArtista=" + row["idArtista"];
+                SqlDataAdapter dataAdapter3 = new SqlDataAdapter(sql3, conexion);
+                DataSet dt3 = new DataSet();
+                dataAdapter3.Fill(dt3); 
+                DataRow row3 = dt3.Tables[0].Rows[0];
+                string sql4 = "SELECT NombreDisquera FROM Disquera WHERE idDisquera=" + row3["idDisquera"];
+                SqlDataAdapter dataAdapter4 = new SqlDataAdapter(sql4, conexion);
+                DataSet dt4 = new DataSet();
+                dataAdapter4.Fill(dt4);
+                DataRow row4 = dt4.Tables[0].Rows[0];
+                string ad2 = row3["idArtista"].ToString() + "," + row3["NombreArtista"].ToString() + ", " + row4["NombreDisquera"].ToString();
+                dta.Rows.Add(row["idAlbum"], ad, ad2, row["NombreAlbum"], row["CantidadCanciones"], row["TipoAlbum"]);
+            }
+            dataGridView.DataSource = dta;
+        }
+        public void muestradatosCan(string Tabla, DataGridView dataGridView)
+        {
+            string sql = "SELECT * FROM " + Tabla;
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
+            DataSet dt = new DataSet();
+            dataAdapter.Fill(dt);
+            DataTable dta = new DataTable();
+            dta.Columns.Add("idCancion");
+            dta.Columns.Add("Album");
+            dta.Columns.Add("Compositor");
+            dta.Columns.Add("NombreCancion");
+            dta.Columns.Add("Fecha de lanazmiento");
+            dta.Columns.Add("Explicita");
+            dta.Columns.Add("Duracion");
+            //dataAdapter.Fill(dt);
+            foreach (DataRow row in dt.Tables[0].Rows)
+            {
+                //string sql2 = "SELECT idMiembro,NombreMiembro,Edad FROM Miembro WHERE idMiembro=" + row["idMiembro"];
+                //SqlDataAdapter dataAdapter2 = new SqlDataAdapter(sql2, conexion);
+                //DataSet dt2 = new DataSet();
+                //dataAdapter2.Fill(dt2); DataRow row2 = dt2.Tables[0].Rows[0];
+                string ads = comboBoxAlb.Items[idAlbum.IndexOf(row["idAlbum"].ToString())].ToString();
+                string ad = "";
+                foreach (var item in comboBoxComp.Items)
+                {
+                    if (separaId(item.ToString()) == row["idCompositor"].ToString())
+                        ad = item.ToString();
+                }
+                //string ad = row2["idMiembro"].ToString() + "," + row2["NombreMiembro"].ToString() + "(" + row2["Edad"].ToString() + ")";
+                dta.Rows.Add(row["idCancion"],ads , ad, row["NombreCancion"], row["FechaLanzamiento"], row["Explicita"], row["Duracion"]);
+            }
+            dataGridView.DataSource = dta;
+        }
+        public void muestradatosDetallP(string Tabla, DataGridView dataGridView)
+        {
+            string sql = "SELECT * FROM " + Tabla;
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
+            DataSet dt = new DataSet();
+            dataAdapter.Fill(dt);
+            DataTable dta = new DataTable();
+            dta.Columns.Add("idDetallePlaylist");
+            dta.Columns.Add("Playlist");
+            dta.Columns.Add("Cancion");
+            //dataAdapter.Fill(dt);
+            foreach (DataRow row in dt.Tables[0].Rows)
+            {
+                //string sql2 = "SELECT idMiembro,NombreMiembro,Edad FROM Miembro WHERE idMiembro=" + row["idMiembro"];
+                //SqlDataAdapter dataAdapter2 = new SqlDataAdapter(sql2, conexion);
+                //DataSet dt2 = new DataSet();
+                //dataAdapter2.Fill(dt2); DataRow row2 = dt2.Tables[0].Rows[0];
+                string ads = comboBoxPlayList.Items[idPlay.IndexOf(row["idPlaylist"].ToString())].ToString() ;
+                string ad = comboBoxCan.Items[idCancion.IndexOf(row["idCancion"].ToString())].ToString() ;
+                //string ad = row2["idMiembro"].ToString() + "," + row2["NombreMiembro"].ToString() + "(" + row2["Edad"].ToString() + ")";
+                dta.Rows.Add(row["idDetallePlaylist"], ads, ad);
+            }
+            dataGridView.DataSource = dta;
+        }
+        public void llaveforaPlay(ComboBox cb)//carga los valores de disquera en un combobox 
+        {
+            cb.Items.Clear();
+            idPlay = new List<string>();
+            string sql = "SELECT idPlaylist,NombrePlaylist FROM Playlist";
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
+            DataSet dt = new DataSet();
+            dataAdapter.Fill(dt);
+            int i = 0;
+            foreach (DataRow row in dt.Tables[0].Rows)
+            {
+                string ad;
+                ad = row["NombrePlaylist"].ToString();
+                idPlay.Add(row["idPlaylist"].ToString());
+                cb.Items.Add(ad);
+                i++;
+            }
+
+        }
         public void llaveforandisq(ComboBox cb)//carga los valores de disquera en un combobox 
         {
             cb.Items.Clear();
@@ -143,6 +291,36 @@ namespace Proyecto_Adimn_BD
             {
                 string ad;
                 ad = row["idDisquera"].ToString()+ ","+ row["NombreDisquera"].ToString();
+                cb.Items.Add(ad);
+                i++;
+            }
+
+        }
+       
+        public void llaveforacan(ComboBox cb)//carga los valores de disquera en un combobox 
+        {
+            cb.Items.Clear();
+            idCancion = new List<string>();
+            string sql = "SELECT idCancion,idAlbum,NombreCancion,YEAR(FechaLanzamiento) as Anio FROM Cancion";
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(sql, conexion);
+            DataSet dt = new DataSet();
+            dataAdapter.Fill(dt);
+            int i = 0;
+            foreach (DataRow row in dt.Tables[0].Rows)
+            {
+                string sql2 = "SELECT idArtista FROM Album WHERE idAlbum=" + row["idAlbum"];
+                SqlDataAdapter dataAdapter2 = new SqlDataAdapter(sql2, conexion);
+                DataSet dt2 = new DataSet();
+                dataAdapter2.Fill(dt2);
+                DataRow row2 = dt2.Tables[0].Rows[0];
+                string sql3 = "SELECT NombreArtista FROM Artista WHERE idArtista=" + row2["idArtista"];
+                SqlDataAdapter dataAdapter3 = new SqlDataAdapter(sql3, conexion);
+                DataSet dt3 = new DataSet();
+                dataAdapter3.Fill(dt3);
+                DataRow row3 = dt3.Tables[0].Rows[0];
+                string ad;
+                ad = row["NombreCancion"] + ", " + row3["NombreArtista"].ToString() + "(" + row["Anio"] + ")";;
+                idCancion.Add(row["idCancion"].ToString());
                 cb.Items.Add(ad);
                 i++;
             }
@@ -599,7 +777,8 @@ namespace Proyecto_Adimn_BD
             comboBox3.SelectedItem = null;
             comboBox4.SelectedItem = null;
             textBox8.Text = "";
-            muestraDatos("Playlist", dataGridView6);
+            muestraDatosPlaylist("Playlist", dataGridView6);
+            llaveforaPlay(comboBoxPlayList);
             //muestraDatos("Disquera", dataGridView6);
         }
 
@@ -616,10 +795,13 @@ namespace Proyecto_Adimn_BD
             comboBox3.SelectedItem = null;
             comboBox4.SelectedItem = null;
             textBox8.Text = "";
-            muestraDatos("Playlist", dataGridView6);
+            muestraDatosPlaylist("Playlist", dataGridView6);
             //muestraDatos("Disquera", dataGridView6);
             button16.Enabled = false;
             button17.Enabled = false;
+            llaveforaPlay(comboBoxPlayList);
+            llaveforaPlay(comboBoxPlayList);
+            llaveforaPlay(comboBoxPlayList);
         }
 
         private void dataGridView6_Click(object sender, EventArgs e)
@@ -630,11 +812,12 @@ namespace Proyecto_Adimn_BD
             string id = dataGridView6.Rows[index].Cells[0].Value.ToString();
             idAux = int.Parse(id);
             //comboBox2.SelectedItem = comboBox2.SelectedIndex\
-            foreach (var item in comboBox3.Items)
-            {
-                if (separaId(item.ToString()) == dataGridView6.Rows[index].Cells[1].Value.ToString())
-                    comboBox3.Text = item.ToString();
-            }
+            //foreach (var item in comboBox3.Items)
+            //{
+            //    if (separaId(item.ToString()) == dataGridView6.Rows[index].Cells[1].Value.ToString())
+            //        comboBox3.Text = item.ToString();
+            //}
+            comboBox3.Text = dataGridView6.Rows[index].Cells[1].Value.ToString();
             textBox8.Text = dataGridView6.Rows[index].Cells[2].Value.ToString();
             comboBox4.Text = dataGridView6.Rows[index].Cells[5].Value.ToString();
             
@@ -652,7 +835,7 @@ namespace Proyecto_Adimn_BD
             string explicita = comboBox5.Text;
             //MessageBox.Show(fechaFun);
             string cadena = "INSERT INTO Cancion(idAlbum,idCompositor,NombreCancion,FechaLanzamiento,Explicita,Duracion)" +
-               "VALUES ('" + id_Album + "','" + id_Compositor + "','" + nombre + "','" + fechaLan + "','" + explicita + "','" + Duracion + "')";
+               "VALUES ('" + id_Album + "','" + id_Compositor + "','" + nombre + "','" + fechaLan + "','" + explicita + "','" + "00:"+Duracion + "')";
             SqlCommand comando = new SqlCommand(cadena, conexion);
 
             comando.ExecuteNonQuery();
@@ -662,9 +845,10 @@ namespace Proyecto_Adimn_BD
             textBox10.Text = "";
             textBox9.Text = "";
             comboBox5.SelectedItem = null;
-            muestraDatos("Album", dataGridAlbum);
+            muestradatosAlbn("Album", dataGridAlbum);
             muestraDatos("Compositor", dataGridView4);
-            muestraDatos("Cancion", dataGridCancion);
+            muestradatosCan("Cancion", dataGridCancion);
+            llaveforacan(comboBoxCan);
             //llaveforanAlbm(comboBoxAlb);
             //muestraDatos("Disquera", dataGridView6);
         }
@@ -693,9 +877,10 @@ namespace Proyecto_Adimn_BD
             textBox10.Text = "";
             textBox9.Text = "";
             comboBox5.SelectedItem = null;
-            muestraDatos("Album", dataGridAlbum);
+            muestradatosAlbn("Album", dataGridAlbum);
             muestraDatos("Compositor", dataGridView4);
-            muestraDatos("Cancion", dataGridCancion);
+            muestradatosCan("Cancion", dataGridCancion);
+            llaveforacan(comboBoxCan);
             //llaveforanAlbm(comboBoxAlb);
             //muestraDatos("Disquera", dataGridView6);
         }
@@ -717,10 +902,12 @@ namespace Proyecto_Adimn_BD
             comboBox3.SelectedItem = null;
             comboBox4.SelectedItem = null;
             textBox8.Text = "";
-            muestraDatos("Playlist", dataGridView6);
+            muestraDatosPlaylist("Playlist", dataGridView6);
             //muestraDatos("Disquera", dataGridView6);
             button16.Enabled = false;
             button17.Enabled = false;
+            llaveforaPlay(comboBoxPlayList);
+            llaveforaPlay(comboBoxPlayList);
         }
 
         private void buttonAddAlb_Click(object sender, EventArgs e)
@@ -739,7 +926,7 @@ namespace Proyecto_Adimn_BD
             comboBoxArt.SelectedItem = null;
             textBoxAlbum.Text = "";
             textBoxNumCa.Text = "";
-            muestraDatos("Album", dataGridAlbum);
+            muestradatosAlbn("Album", dataGridAlbum);
             muestraDatos("Artista", dataGridView5);
             llaveforanAlbm(comboBoxAlb);
             //muestraDatos("Disquera", dataGridView6);
@@ -753,16 +940,18 @@ namespace Proyecto_Adimn_BD
             string id = dataGridAlbum.Rows[index].Cells[0].Value.ToString();
             idAux = int.Parse(id);
             //comboBox2.SelectedItem = comboBox2.SelectedIndex\
-            foreach (var item in comboBoxGen.Items)
-            {
-                if (separaId(item.ToString()) == dataGridAlbum.Rows[index].Cells[1].Value.ToString())
-                    comboBoxGen.Text = item.ToString();
-            }
-            foreach (var item in comboBoxArt.Items)
-            {
-                if (separaId(item.ToString()) == dataGridAlbum.Rows[index].Cells[2].Value.ToString())
-                    comboBoxArt.Text = item.ToString();
-            }
+            //foreach (var item in comboBoxGen.Items)
+            //{
+            //    if (separaId(item.ToString()) == dataGridAlbum.Rows[index].Cells[1].Value.ToString())
+            //        comboBoxGen.Text = item.ToString();
+            //}
+            //foreach (var item in comboBoxArt.Items)
+            //{
+            //    if (separaId(item.ToString()) == dataGridAlbum.Rows[index].Cells[2].Value.ToString())
+            //        comboBoxArt.Text = item.ToString();
+            //}
+            comboBoxGen.Text = dataGridAlbum.Rows[index].Cells[1].Value.ToString();
+            comboBoxArt.Text = dataGridAlbum.Rows[index].Cells[2].Value.ToString();
             textBoxAlbum.Text = dataGridAlbum.Rows[index].Cells[3].Value.ToString();
             textBoxNumCa.Text = dataGridAlbum.Rows[index].Cells[4].Value.ToString();
 
@@ -786,7 +975,7 @@ namespace Proyecto_Adimn_BD
             comboBoxArt.SelectedItem = null;
             textBoxAlbum.Text = "";
             textBoxNumCa.Text = "";
-            muestraDatos("Album", dataGridAlbum);
+            muestradatosAlbn("Album", dataGridAlbum);
             buttonModAlb.Enabled = false;
             buttonDelAlb.Enabled = false;
             muestraDatos("Artista", dataGridView5);
@@ -808,7 +997,7 @@ namespace Proyecto_Adimn_BD
             comboBoxArt.SelectedItem = null;
             textBoxAlbum.Text = "";
             textBoxNumCa.Text = "";
-            muestraDatos("Album", dataGridAlbum);
+            muestradatosAlbn("Album", dataGridAlbum);
             buttonModAlb.Enabled = false;
             buttonDelAlb.Enabled = false;
             muestraDatos("Artista", dataGridView5);
@@ -817,12 +1006,31 @@ namespace Proyecto_Adimn_BD
 
         private void buttonAddDet_Click(object sender, EventArgs e)
         {
+            string nombre = idPlay[comboBoxPlayList.SelectedIndex];
+            string pais = idCancion[comboBoxCan.SelectedIndex];
+            string cadena = "INSERT INTO DetallePlaylist(idPlaylist,idCancion)" +
+               "VALUES ('" + nombre + "','" + pais + "')";
+            SqlCommand comando = new SqlCommand(cadena, conexion);
 
+            comando.ExecuteNonQuery();
+            comboBoxPlayList.SelectedItem = null;
+            comboBoxCan.SelectedItem = null;
+            muestradatosDetallP("DetallePlaylist", dataGridDetalle);
+            muestraDatosPlaylist("Playlist", dataGridView6);
         }
 
         private void dataGridDetalle_Click(object sender, EventArgs e)
         {
-            
+            int index;
+            index = dataGridDetalle.CurrentRow.Index;
+
+            string id = dataGridDetalle.Rows[index].Cells[0].Value.ToString();
+            idAux = int.Parse(id);
+            //comboBox2.SelectedItem = comboBox2.SelectedIndex\
+            comboBoxPlayList.SelectedItem = dataGridDetalle.Rows[index].Cells[1].Value.ToString();
+            comboBoxCan.SelectedItem = dataGridDetalle.Rows[index].Cells[2].Value.ToString();
+            buttonModDet.Enabled = true;
+            buttonDelDet.Enabled = true;
         }
 
         private void dataGridCancion_Click(object sender, EventArgs e)
@@ -833,22 +1041,18 @@ namespace Proyecto_Adimn_BD
             string id = dataGridCancion.Rows[index].Cells[0].Value.ToString();
             idAux = int.Parse(id);
             //comboBox2.SelectedItem = comboBox2.SelectedIndex\
-            comboBoxAlb.SelectedItem = comboBoxAlb.Items[idAlbum.IndexOf(dataGridCancion.Rows[index].Cells[1].Value.ToString())];
-            // idAlbum.IndexOf(dataGridCancion.Rows[index].Cells[1].Value.ToString();
-            foreach (var item in comboBoxComp.Items)
-            {
-                if (separaId(item.ToString()) == dataGridCancion.Rows[index].Cells[2].Value.ToString())
-                    comboBoxComp.Text = item.ToString();
-            }
+            comboBoxAlb.Text = dataGridCancion.Rows[index].Cells[1].Value.ToString();
+            comboBoxComp.Text = dataGridCancion.Rows[index].Cells[2].Value.ToString();
             textBoxCan.Text = dataGridCancion.Rows[index].Cells[3].Value.ToString();
             string[] pal = dataGridCancion.Rows[index].Cells[6].Value.ToString().Split(':');
-            textBox10.Text = pal[0];
-            textBox9.Text = pal[1];
+            textBox10.Text = pal[1];
+            textBox9.Text = pal[2];
             comboBox5.Text = dataGridCancion.Rows[index].Cells[5].Value.ToString();
             dateTimeLanza.Text = dataGridCancion.Rows[index].Cells[4].Value.ToString();
             buttonModCan.Enabled = true;
             buttonDelCan.Enabled = true;
         }
+
 
         private void buttonDelCan_Click_1(object sender, EventArgs e)
         {
@@ -870,11 +1074,45 @@ namespace Proyecto_Adimn_BD
             textBox10.Text = "";
             textBox9.Text = "";
             comboBox5.SelectedItem = null;
-            muestraDatos("Album", dataGridAlbum);
+            muestradatosAlbn("Album", dataGridAlbum);
             muestraDatos("Compositor", dataGridView4);
-            muestraDatos("Cancion", dataGridCancion);
+            muestradatosCan("Cancion", dataGridCancion);
+            llaveforacan(comboBoxCan);
             //llaveforanAlbm(comboBoxAlb);
             //muestraDatos("Disquera", dataGridView6);
+        }
+
+        private void buttonModDet_Click(object sender, EventArgs e)
+        {
+            string nombre = idPlay[comboBoxPlayList.SelectedIndex];
+            string pais = idCancion[comboBoxCan.SelectedIndex];
+            
+            string cadena = "UPDATE DetallePlaylist SET idPlaylist = '" + nombre + "' , idCancion = '" + pais + "' WHERE idDetallePlaylist=" + idAux.ToString();
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            comboBoxPlayList.SelectedItem = null;
+            comboBoxCan.SelectedItem = null;
+            muestradatosDetallP("DetallePlaylist", dataGridDetalle);
+            muestraDatosPlaylist("Playlist", dataGridView6);
+            buttonModDet.Enabled = false;
+            buttonDelDet.Enabled = false;
+        }
+
+        private void buttonDelDet_Click(object sender, EventArgs e)
+        {
+            string nombre = idPlay[comboBoxPlayList.SelectedIndex];
+            string pais = idCancion[comboBoxCan.SelectedIndex];
+            string cadena = "DELETE FROM DetallePlaylist  WHERE idDetallePlaylist=" + idAux.ToString();
+            SqlCommand comando = new SqlCommand(cadena, conexion);
+
+            comando.ExecuteNonQuery();
+            comboBoxPlayList.SelectedItem = null;
+            comboBoxCan.SelectedItem = null;
+            muestradatosDetallP("DetallePlaylist", dataGridDetalle);
+            muestraDatosPlaylist("Playlist", dataGridView6);
+            buttonModDet.Enabled = false;
+            buttonDelDet.Enabled = false;
         }
     }
 }
