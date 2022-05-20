@@ -1172,22 +1172,4 @@ namespace Proyecto_Adimn_BD
 
         #endregion
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
